@@ -7,15 +7,15 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { LOGO, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
+
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
@@ -27,7 +27,7 @@ const Login = () => {
   const handleButtonClick = () => {
     // Validate the form data
     const msg = checkValidata(email.current.value, password.current.value);
-    console.log(msg);
+    //console.log(msg);
     setErrorMessage(msg);
 
     if (msg) return;
@@ -46,8 +46,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://images.dog.ceo/breeds/buhund-norwegian/hakon3.jpg",
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               // Profile updated!
@@ -61,7 +60,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               // An error occurred
@@ -69,7 +67,7 @@ const Login = () => {
               setErrorMessage(error.message);
             });
 
-          console.log(user);
+          //console.log(user);
 
           // ...
         })
@@ -88,9 +86,8 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          //console.log(user);
 
-          navigate("/browse");
           // ...
         })
         .catch((error) => {
@@ -105,7 +102,7 @@ const Login = () => {
     <div>
       <Header />
       <div className="absolute">
-        <img src="https://assets.nflxext.com/ffe/siteui/vlv3/cb72daa5-bd8d-408b-b949-1eaef000c377/web/IN-en-20250825-TRIFECTA-perspective_a3209894-0b01-4ddb-b57e-f32165e20a3f_small.jpg" />
+        <img src={LOGO} />
       </div>
       <div>
         <form
